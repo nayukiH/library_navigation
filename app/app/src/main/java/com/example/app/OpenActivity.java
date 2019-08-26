@@ -1,6 +1,7 @@
 package com.example.app;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,6 +11,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -25,23 +27,36 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Target;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class OpenActivity extends AppCompatActivity {
     public static final int TAKE_PHOTO=1;
     private ImageView picture;
     private Uri imageUri;
     public static final int CHOOSE_PHOTO=2;
-
-        @Override
+    /* 变量声明
+     * newName：上传后在服务器上的文件名称
+     * uploadFile：要上传的文件路径
+     * actionUrl：服务器上对应的程序路径 */
+    private String newName="image.jpg";
+    private String uploadFile;
+    private String actionUrl;
+    private Button mButton;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open);
         Button takePhoto=(Button) findViewById(R.id.take_photo);
         Button chooseFromAlbum = (Button) findViewById(R.id.choose_from_album);
+        Button push = (Button) findViewById(R.id.myButton);
         picture=(ImageView) findViewById(R.id.picture);
         //为拍照按钮添加点击事件
         takePhoto.setOnClickListener(new View.OnClickListener(){
@@ -66,10 +81,12 @@ public class OpenActivity extends AppCompatActivity {
                     //如果运行设备的系统版本低于Android7.0，就调用Uri的fromFile()方法将File对象转化成Uri对象
                     imageUri=Uri.fromFile(outputImage);
                 }
+                uploadFile=getImagePath(imageUri,null);
                 Intent intent=new Intent("android.media.action.IMAGE_CAPTURE");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);//指定图片的输出地址
                 startActivityForResult(intent,TAKE_PHOTO);//启动活动
                                       //照相机程序被打开，拍下的照片输入到output_image.jpg中
+
             }
         });
 
@@ -86,7 +103,99 @@ public class OpenActivity extends AppCompatActivity {
                 }
             }
         });
+        //为上传按钮添加点击事件
+        push.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadFile();
+            }
+        });
+
     }
+
+    /* 上传文件至Server的方法 */
+    private void uploadFile()
+    {
+        String end = "\r\n";
+        String twoHyphens = "--";
+        String boundary = "*****";
+        try
+        {
+            URL url =new URL(actionUrl);
+            HttpURLConnection con=(HttpURLConnection)url.openConnection();
+            /* 允许Input、Output，不使用Cache */
+            con.setDoInput(true);
+            con.setDoOutput(true);
+            con.setUseCaches(false);
+            /* 设置传送的method=POST */
+            con.setRequestMethod("POST");
+            /* setRequestProperty */
+            con.setRequestProperty("Connection", "Keep-Alive");
+            con.setRequestProperty("Charset", "UTF-8");
+            con.setRequestProperty("Content-Type",
+                    "multipart/form-data;boundary="+boundary);
+            /* 设置DataOutputStream */
+            DataOutputStream ds =
+                    new DataOutputStream(con.getOutputStream());
+            ds.writeBytes(twoHyphens + boundary + end);
+            ds.writeBytes("Content-Disposition: form-data; " +
+                    "name=\"file1\";filename=\"" +
+                    newName +"\"" + end);
+            ds.writeBytes(end);
+
+            /* 取得文件的FileInputStream */
+            FileInputStream fStream = new FileInputStream(uploadFile);
+            /* 设置每次写入1024bytes */
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+
+            int length = -1;
+            /* 从文件读取数据至缓冲区 */
+            while((length = fStream.read(buffer)) != -1)
+            {
+                /* 将资料写入DataOutputStream中 */
+                ds.write(buffer, 0, length);
+            }
+            ds.writeBytes(end);
+            ds.writeBytes(twoHyphens + boundary + twoHyphens + end);
+
+            /* close streams */
+            fStream.close();
+            ds.flush();
+
+            /* 取得Response内容 */
+            InputStream is = con.getInputStream();
+            int ch;
+            StringBuffer b =new StringBuffer();
+            while( ( ch = is.read() ) != -1 )
+            {
+                b.append( (char)ch );
+            }
+            /* 将Response显示于Dialog */
+            showDialog(b.toString().trim());
+            /* 关闭DataOutputStream */
+            ds.close();
+        }
+        catch(Exception e)
+        {
+            showDialog(""+e);
+        }
+    }
+
+    /* 显示Dialog的method */
+    private void showDialog(String mess)
+    {
+        new AlertDialog.Builder(OpenActivity.this).setTitle("Message")
+                .setMessage(mess)
+                .setNegativeButton("确定",new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                    }
+                })
+                .show();
+    }
+
 
     private void openAlbum(){
         Intent intent=new Intent("android.intent.action.GET_CONTENT");
@@ -179,6 +288,7 @@ public class OpenActivity extends AppCompatActivity {
             //如果是file类型的URI，直接获取图片路径
             imagePath=uri.getPath();
         }
+        uploadFile=imagePath;
         displayImage(imagePath);//根据图片路径显示图片
     }
 
@@ -186,6 +296,7 @@ public class OpenActivity extends AppCompatActivity {
         Uri uri=data.getData();
         String imagePath = getImagePath(uri,null);
         displayImage(imagePath);
+        uploadFile=imagePath;
     }
 
 
