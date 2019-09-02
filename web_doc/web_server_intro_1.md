@@ -8,15 +8,15 @@ tomcat+javaweb+tensorflow环境
 
 - tomcat官网下载zip包，解压到除了c盘意外的任何盘。一定不能装在c盘，不要因为软件权限问题后续服务器运行时会报错
 
-  ![..\images\tomcat_install.PNG]()
+  ![images/tomcat_install.PNG]()
 
 - 配置环境变量
 
-  ![images\environ_1.PNG]()
+  ![images/environ_1.PNG]()
 
   其中变量值为当前tomcat压缩包所在位置
 
-  ![images\environ_2.PNG]()
+  ![images/environ_2.PNG]()
 
   在Path中添加tomcat的bin路径，如图所示
 
@@ -24,9 +24,9 @@ tomcat+javaweb+tensorflow环境
 
   打开cmd，输入命令startup.bat,若弹出小黑窗，打开浏览器输入localhost:8080, 看到页面如图，则安装成功
 
-  ![..\images\tomcat_try.PNG]()
+  ![images/tomcat_try.PNG]()
 
-  ![..\images\tomcat_try_2.PNG]()
+  ![images/tomcat_try_2.PNG]()
 
   ### javaweb项目建立
 
@@ -34,11 +34,11 @@ tomcat+javaweb+tensorflow环境
 
 - 进行tomcat的配置
 
-  ![..\images\tomcat_config.PNG]()
+  ![images/tomcat_config.PNG]()
 
   next直到这一步，勾选生成web.xml，之后需要进行配置
 
-  ![..\images\tomcat_config.PNG]()
+  ![images/tomcat_config.PNG]()
 
   ### java 的tensorlfow环境配置
 
