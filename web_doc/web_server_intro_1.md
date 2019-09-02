@@ -38,7 +38,7 @@ tomcat+javaweb+tensorflow环境
 
   next直到这一步，勾选生成web.xml，之后需要进行配置
 
-  ![](../images/tomcat_config.PNG)
+  ![](../images/tomcat_config_2.PNG)
 
   ### java 的tensorlfow环境配置
 
