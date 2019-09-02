@@ -45,7 +45,18 @@
             android:textColor="@color/深蓝"
             android:text="从手机相册导入" />
 
+<<<<<<< HEAD
 
+=======
+        <Button
+            android:id="@+id/myButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="300dp"
+            android:text="上传"
+            android:textColor="@color/深蓝" />
+>>>>>>> fb6af88e07bb2c38080dde238b63ed3ca0931478
 
         <ImageView
             android:id="@+id/picture"
