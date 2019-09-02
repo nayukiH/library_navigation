@@ -12,11 +12,11 @@ tomcat+javaweb+tensorflow环境
 
 - 配置环境变量
 
-  ![..\images\environ_1.PNG]()
+  ![images\environ_1.PNG]()
 
   其中变量值为当前tomcat压缩包所在位置
 
-  ![..\images\environ_2.PNG]()
+  ![images\environ_2.PNG]()
 
   在Path中添加tomcat的bin路径，如图所示
 
