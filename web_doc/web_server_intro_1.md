@@ -8,7 +8,7 @@ tomcat+javaweb+tensorflow环境
 
 - tomcat官网下载zip包，解压到除了c盘意外的任何盘。一定不能装在c盘，不要因为软件权限问题后续服务器运行时会报错
 
-  ![../images/tomcat_install.PNG]()
+  ![../../images/tomcat_install.PNG]()
 
 - 配置环境变量
 
