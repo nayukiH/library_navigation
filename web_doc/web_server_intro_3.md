@@ -13,15 +13,15 @@ javaweb项目运行需要添加server和将项目部署到tomcat上
 ### 在eclipse中创建服务器
 
   + 点击window->show view->servers
-  ![](../images/server_1.png)<br>
+  ![](../images/server_1.png)
   server服务器窗口成功打开
-  ![](../images/server_2.png)<br>
+  ![](../images/server_2.png)
   + 点击文本链接，创建一个新的tomcat服务器实例
-  ![](../images/server_3.png)<br>
+  ![](../images/server_3.png)
   选择tomcat服务器时应与安装的tomcat版本一致
   + 将tomcat的安装路径载入
-  ![](../images/server_4.png)<br>
-  + 启动tomcat服务器实例<br>
+  ![](../images/server_4.png)
+  + 启动tomcat服务器实例
   点击文本链接，服务器启动成功，控制台输出信息
   ![](../images/server_5.png)
 
