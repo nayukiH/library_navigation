@@ -20,6 +20,7 @@ javaweb项目运行需要添加server和将项目部署到tomcat上
   ![](../images/server_2.png)
   
   + 点击文本链接，创建一个新的tomcat服务器实例
+  
   ![](../images/server_3.png)
   
   选择tomcat服务器时应与安装的tomcat版本一致
