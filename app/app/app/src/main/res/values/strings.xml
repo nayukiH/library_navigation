@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">app</string>
-    <string name="info_right">点击图标添加图片</string>
-    <string name="hello">171</string>
-    <string name="str_button">上传</string>
-    <string name="str_title">上传到服务器</string>
-
-</resources>
