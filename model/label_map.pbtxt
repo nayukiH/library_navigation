@@ -1,0 +1,25 @@
+item {
+  id: 1
+  name: 'Borrow machine'
+}
+
+item {
+  id: 2
+  name: 'hall'
+}
+
+item {
+  id: 3
+  name: 'retriArea_pc'
+}
+
+item {
+  id: 4
+  name: 'tech1'
+}
+
+item {
+  id: 5
+  name: 'tech2'
+}
+
